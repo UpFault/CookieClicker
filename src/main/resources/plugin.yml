@@ -1,0 +1,12 @@
+name: CookieClicker
+version: '${project.version}'
+main: com.upfault.cookieclicker.CookieClicker
+api-version: 1.17
+authors: [ UpFault ]
+description: A recreation to hypixel skyblock's cookie clicker but better!
+website: upfault.com
+commands:
+  cookie:
+    description: Opens cookie clicker GUI.
+    usage: /cookie
+    aliases: [ cookieclicker, cc ]

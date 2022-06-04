@@ -1,9 +1,15 @@
 package com.upfault.cookieclicker.events;
 
+import com.upfault.cookieclicker.CookieClicker;
 import com.upfault.cookieclicker.gui.CookieClickerGui;
+import com.upfault.cookieclicker.gui.UpgradesGui;
 import com.upfault.cookieclicker.utilities.ItemBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -14,33 +20,59 @@ import java.util.Objects;
 
 public class InventoryClicks implements Listener {
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void cancelAllEvents(InventoryClickEvent e) {
-        if(e.getClickedInventory() == null) return;
-        if(Arrays.asList(e.getClickedInventory().getContents()).contains(new CookieClickerGui().getInventory().getContents()[0])) {
-            e.setCancelled(true);
-        }
-        e.setCancelled(true);
-    }
-
     private static int count = 0;
     public void addCookies(int amount) {
         count += amount;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    private void itemClicks(InventoryClickEvent e) {
+    @EventHandler
+    public void cancelAllEvents(InventoryClickEvent e) {
+        if(e.getView().getTitle().equals("§8Cookie Clicker v0.01 - Upgrades") || e.getView().getTitle().equals("§8Cookie Clicker v0.01")) {
+            e.setCancelled(true);
+            e.setResult(Event.Result.DENY);
+        }
+    }
+
+    @EventHandler
+    private void cookieGui(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
-        if(e.getCurrentItem() != null) {
-            if (e.getSlot() == 13) {
-                addCookies(1);
-                Objects.requireNonNull(e.getClickedInventory()).setItem(13, new ItemBuilder(Material.COOKIE).setName("§e" + count + " §6Cookies").setLore(setStatus(count)).toItemStack());
-            }
-            if (e.getSlot() == 31) {
-                player.closeInventory();
+        if (e.getView().getTitle().equals("§8Cookie Clicker v0.01")) {
+            if (e.getCurrentItem() != null) {
+                if (e.getSlot() == 13) {
+                    addCookies(1);
+                    Objects.requireNonNull(e.getClickedInventory()).setItem(13, new ItemBuilder(Material.COOKIE).setName("§e" + count + " §6Cookies").setLore(setStatus(count)).toItemStack());
+                }
+                if (e.getSlot() == 31) {
+                    player.closeInventory();
+                }
+                if (e.getSlot() == 32) {
+                    new UpgradesGui().openInventory(player);
+                }
             }
         }
     }
+
+    @EventHandler
+    private void upgradeGui(InventoryClickEvent e) {
+        Player player = (Player) e.getWhoClicked();
+        if(e.getView().getTitle().equals("§8Cookie Clicker v0.01 - Upgrades")) {
+            if(e.getCurrentItem() != null) {
+                if (e.getSlot() == 30) {
+                    new CookieClickerGui().openInventory(player);
+                    e.getInventory().setItem(13, new ItemBuilder(Material.COOKIE).setName("§e" + count + " §6Cookies").setLore(setStatus(count)).toItemStack());
+                }
+                if (e.getSlot() == 31) {
+                    player.closeInventory();
+                }
+            }
+        }
+    }
+
+    /* Current Max Level for upgrades is 50 */
+    /* Update the value using click event, set the updated in the upgrades.json */
+
+
+
 
     public String[] setStatus(int amount) {
         if(amount >= 0 && amount < 5) {

@@ -18,7 +18,6 @@ public class CookieCommand implements CommandExecutor {
             Bukkit.getLogger().log(Level.SEVERE, "CookieClicker: This command can only be run by a player.");
             return true;
         }
-
         new CookieClickerGui().openInventory((HumanEntity) sender);
         return true;
     }

@@ -17,7 +17,9 @@ public class CookieClickerGui {
 
     public void initializeItems() {
         for(int slot = 0; slot < inv.getSize(); slot++) { inv.setItem(slot, new ItemBuilder(Material.BLACK_STAINED_GLASS_PANE).setName(" ").toItemStack());}
+        inv.setItem(30, new ItemBuilder(Material.ARROW).setName("§aGo Back").addLoreLine("§7To Booster Cookie").toItemStack());
         inv.setItem(31, new ItemBuilder(Material.BARRIER).setName("§cClose").toItemStack());
+        inv.setItem(32, new ItemBuilder(Material.GOLD_INGOT).setName("§eUpgrades").setLore("§7Hire more §dworkers", "§7and build your §6empire!").toItemStack());
         inv.setItem(13, new ItemBuilder(Material.COOKIE).setName("§e" + 0 + " §6Cookies").setLore(
                 "§6Cookies §7of course, are not a",
                 "§7valid source of §anutrition§7.",
