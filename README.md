@@ -1,21 +1,8 @@
-## Table of Contents
-
-* [About CookieClicker](#about-cookie-clicker)
-  * [Built With](#built-with)
-    * [Known Bugs](#known-bugs)
-* [Getting Started](#getting-started)
-  * [Testing](#testing)
-* [Authors](#authors)
-* [Licence](#licence)
-* [Acknowledgments](#acknowledgments)
-
 ### Built-With
 
 Java 17
 
 #### Known Bugs
-
-Hopefully, this should be empty too
 
 See the [open issues](https://github.com/upfault/Better-README/issues) for a list of known issues.
 
