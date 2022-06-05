@@ -1,3 +1,6 @@
+https://github.com/UpFault/CookieClicker/blob/e49a9a9037bbc257012dd961121988dd854c02b6/cookieclicker.gif
+
+
 ### Built-With
 
 Java 17
