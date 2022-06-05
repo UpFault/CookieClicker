@@ -4,7 +4,7 @@ Java 17
 
 #### Known Bugs
 
-See the [open issues](https://github.com/upfault/Better-README/issues) for a list of known issues.
+See the [open issues](https://github.com/UpFault/CookieClicker/issues) for a list of known issues.
 
 ## Getting Started
 
