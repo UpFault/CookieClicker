@@ -7,9 +7,9 @@ import org.bukkit.entity.HumanEntity;
 import org.bukkit.inventory.Inventory;
 
 public class CookieClickerGui {
+
     private final Inventory inv;
 
-    @SuppressWarnings("all")
     public CookieClickerGui() {
         inv = Bukkit.createInventory(null, 36, "§8Cookie Clicker v0.01");
         initializeItems();
@@ -35,9 +35,4 @@ public class CookieClickerGui {
     public void openInventory(final HumanEntity ent) {
         ent.openInventory(inv);
     }
-
-    public Inventory getInventory() {
-        return inv;
-    }
-
 }
