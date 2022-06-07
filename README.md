@@ -1,4 +1,4 @@
-(https://imgur.com/6nEulpd)
+https://imgur.com/6nEulpd
 
 
 ### Built-With
