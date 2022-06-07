@@ -1,4 +1,4 @@
-<video src="https://imgur.com/7BGXmdS"></video>
+<img src="https://imgur.com/7BGXmdS"></img>
 
 ### Built-With
 
