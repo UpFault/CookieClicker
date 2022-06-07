@@ -1,4 +1,4 @@
-![Imgur Image](https://i.imgur.com/6nEulpd.mp4)
+https://i.imgur.com/6nEulpd.mp4
 
 ### Built-With
 
