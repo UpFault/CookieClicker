@@ -1,4 +1,4 @@
-<img src="https://imgur.com/7BGXmdS"></img>
+[Imgur](https://imgur.com/7BGXmdS)
 
 ### Built-With
 
