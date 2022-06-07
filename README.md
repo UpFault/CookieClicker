@@ -1,4 +1,4 @@
-[https://github.com/UpFault/CookieClicker/blob/e49a9a9037bbc257012dd961121988dd854c02b6/cookieclicker.gif?raw=true](https://imgur.com/6nEulpd)
+(https://imgur.com/6nEulpd)
 
 
 ### Built-With
