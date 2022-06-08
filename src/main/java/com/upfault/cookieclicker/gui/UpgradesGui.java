@@ -8,6 +8,8 @@ import org.bukkit.inventory.Inventory;
 
 public class UpgradesGui {
 
+    //TODO: FIX THE UPGRADES GUI
+
     private final Inventory inv;
 
     public UpgradesGui() {

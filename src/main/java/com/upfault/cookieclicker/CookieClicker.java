@@ -4,7 +4,9 @@ import com.upfault.cookieclicker.gui.CookieClickerGui;
 import com.upfault.cookieclicker.gui.UpgradesGui;
 import com.upfault.cookieclicker.utilities.ItemBuilder;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,10 +17,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
+import java.util.UUID;
 import java.util.logging.Level;
 
 @SuppressWarnings("all")
@@ -53,7 +57,7 @@ public final class CookieClicker extends JavaPlugin implements CommandExecutor, 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
-        if(!player.hasPlayedBefore() || !CookieClicker.getInstance().getConfig().contains(player.getUniqueId().toString())) {
+        if(!player.hasPlayedBefore() || !CookieClicker.getInstance().getConfig().contains(player.getName())) {
             CookieClicker.getInstance().getConfig().set(player.getName() + ".uuid", player.getUniqueId().toString());
             CookieClicker.getInstance().getConfig().set(player.getName() + ".highest_cookies", 0);
             CookieClicker.getInstance().getConfig().set(player.getName() + ".upgrades.cursor", 0);
@@ -64,6 +68,18 @@ public final class CookieClicker extends JavaPlugin implements CommandExecutor, 
     }
 
     @EventHandler
+    public void onPlayerLeave(PlayerQuitEvent event) {
+        //check if count is hifghter than highest_cookies
+        Player player = event.getPlayer();
+        if(count > CookieClicker.getInstance().getConfig().getInt(player.getName() + ".highest_cookies")) {
+            CookieClicker.getInstance().getConfig().set(player.getName() + ".highest_cookies", count);
+            CookieClicker.getInstance().saveConfig();
+            count = 0;
+        }
+        count = 0;
+    }
+
+    @EventHandler
     private void ClickEvents(InventoryClickEvent e) {
         Player player = (Player) e.getWhoClicked();
 
@@ -71,29 +87,37 @@ public final class CookieClicker extends JavaPlugin implements CommandExecutor, 
         if(e.getView().getTitle().equals("§8Cookie Clicker v0.01 - Upgrades") || e.getView().getTitle().equals("§8Cookie Clicker v0.01")) {
             e.setCancelled(true);
             e.setResult(Event.Result.DENY);
-        }
-        if (e.getCurrentItem() != null) {
 
-            /*  Cookie GUI */
-            if (e.getView().getTitle().equals("§8Cookie Clicker v0.01")) {
-                if (e.getSlot() == 13) {
-                    addCookies(1);
-                    Objects.requireNonNull(e.getClickedInventory()).setItem(13, new ItemBuilder(Material.COOKIE).setName("§e" + count + " §6Cookies").setLore(setStatus(count)).toItemStack());
-                }
-                if (e.getSlot() == 31) {
-                    player.closeInventory();
-                }
-                if (e.getSlot() == 32) {
-                    new UpgradesGui().openInventory(player);
-                }
-                /* Upgrades GUI */
-            } else if (e.getView().getTitle().equals("§8Cookie Clicker v0.01 - Upgrades")) {
-                if (e.getSlot() == 30) {
-                    new CookieClickerGui().openInventory(player);
-                    e.getInventory().setItem(13, new ItemBuilder(Material.COOKIE).setName("§e" + count + " §6Cookies").setLore(setStatus(count)).toItemStack());
-                }
-                if (e.getSlot() == 31) {
-                    player.closeInventory();
+            if (e.getCurrentItem() != null) {
+                /*  Cookie GUI */
+                if (e.getView().getTitle().equals("§8Cookie Clicker v0.01")) {
+                    if (e.getSlot() == 13) {
+                        addCookies(1);
+                        Objects.requireNonNull(e.getClickedInventory()).setItem(13, new ItemBuilder(Material.COOKIE).setName("§e" + count + " §6Cookies").setLore(setStatus(count)).toItemStack());
+                        if(Math.random() < 0.00001) {
+                            if(player.getInventory().firstEmpty() != -1) {
+                                player.getInventory().addItem(new ItemBuilder(Material.COOKIE).setName("§6Booster Cookie").setLore("§7Consume to gain the §dCookie Buff", "§7for §b4 §7days:", "", "§8‣ §7Ability to gain §bBits§7!", "§8‣ §b+20% §7Skill XP", "§8‣ §b+15✯ §7Magic Find", "§8‣ §7Keep §6coins §7and §deffects §7on death", "§8‣ §ePermafly §7on private islands", "§8‣ §7Access §6/ah §7 and §6/bazaar §7anywhere", "§8‣ §7Sell items directly to the trades menu", "§8‣ §7AFK §aimmunity §7on your island", "§8‣ §7Toggle specific §dpotion effects", "§8‣ §7Access to §6/anvil §7and §6/etable", "", "§6§lLEGENDARY", "", "§8Unique ID: " + UUID.randomUUID()).toItemStack());
+                            } else {
+                                player.getWorld().dropItem(player.getLocation(), new ItemBuilder(Material.COOKIE).setName("§6Booster Cookie").setLore("§7Consume to gain the §dCookie Buff", "§7for §b4 §7days:", "", "§8‣ §7Ability to gain §bBits§7!", "§8‣ §b+20% §7Skill XP", "§8‣ §b+15✯ §7Magic Find", "§8‣ §7Keep §6coins §7and §deffects §7on death", "§8‣ §ePermafly §7on private islands", "§8‣ §7Access §6/ah §7 and §6/bazaar §7anywhere", "§8‣ §7Sell items directly to the trades menu", "§8‣ §7AFK §aimmunity §7on your island", "§8‣ §7Toggle specific §dpotion effects", "§8‣ §7Access to §6/anvil §7and §6/etable", "", "§6§lLEGENDARY", "", "§8Unique ID: " + UUID.randomUUID()).toItemStack());
+                            }
+                            player.sendMessage("§d§lCRAZY RARE DROP! §7(§6Booster Cookie§7)");
+                        }
+                    }
+                    if (e.getSlot() == 31) {
+                        player.closeInventory();
+                    }
+                    if (e.getSlot() == 32) {
+                        new UpgradesGui().openInventory(player);
+                    }
+                    /* Upgrades GUI */
+                } else if (e.getView().getTitle().equals("§8Cookie Clicker v0.01 - Upgrades")) {
+                    if (e.getSlot() == 30) {
+                        new CookieClickerGui().openInventory(player);
+                        e.getInventory().setItem(13, new ItemBuilder(Material.COOKIE).setName("§e" + count + " §6Cookies").setLore(setStatus(count)).toItemStack());
+                    }
+                    if (e.getSlot() == 31) {
+                        player.closeInventory();
+                    }
                 }
             }
         }
@@ -137,8 +161,11 @@ public final class CookieClicker extends JavaPlugin implements CommandExecutor, 
         return new String[]{"§cIf you see this", "§csomething went wrong."};
     }
 
+    //TODO: add duplicate cookie checker
+
     @Override
     public void onDisable() {
+        count = 0;
         instance = null;
     }
 }
